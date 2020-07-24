@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {sizes, TableComponent} from './table/table.component';
+import {TableComponent} from './table/table.component';
 import {AiService} from './ai.service';
-import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class GameService {
   ships: number[] = [1, 1];
   error = '';
   AiPlayer: AiService;
-  constructor(private route: Router) {
+  constructor() {
     this.boards[0] = new TableComponent();
     this.boards[1] = new TableComponent();
     this.AiPlayer = new AiService(this.boards[1], this.boards[0]);

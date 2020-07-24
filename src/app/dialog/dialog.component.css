@@ -1,0 +1,94 @@
+#modal-title {
+  font-size: 22px;
+}
+
+#modal-footer {
+  justify-self: right;
+  align-self: center;
+}
+
+#modal-action-button {
+  margin-right: 30px;
+  background-color:#3b3b3b;
+  color: white;
+}
+
+#modal-cancel-button {
+  background-color: #4e4e4e;
+  color: white;
+}
+
+#text-style {
+  -webkit-font-smoothing : none;
+  font-family: '04b_03', serif;
+  font-size: 50px;
+}
+
+.win {
+  text-align: center;
+
+  background: linear-gradient(to right, blue 20%, green 40%, yellow 60%, red 80%);
+  background-size: 200% auto;
+
+  color: #000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shine 1s linear infinite;
+}
+.lose{
+  text-align: center;
+
+  background: linear-gradient(to right, darkblue 20%, darkgreen 40%, black 60%, gray 80%);
+  background-size: 200% auto;
+
+  color: #000;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: shine 2s linear infinite;
+}
+@keyframes shine {
+  to {
+      background-position: 200% center;
+  }
+}
+
+
+/*!* The Modal (background) *!*/
+/*.modal {*/
+/*  display: none; !* Hidden by default *!*/
+/*  position: fixed; !* Stay in place *!*/
+/*  z-index: 1; !* Sit on top *!*/
+/*  left: 0;*/
+/*  top: 0;*/
+/*  width: 100%; !* Full width *!*/
+/*  height: 100%; !* Full height *!*/
+/*  overflow: auto; !* Enable scroll if needed *!*/
+/*  background-color: rgb(0,0,0); !* Fallback color *!*/
+/*  background-color: rgba(0,0,0,0.4); !* Black w/ opacity *!*/
+/*}*/
+
+/*!* Modal Content/Box *!*/
+/*.modal-content {*/
+/*  background-color: #fefefe;*/
+/*  margin: 15% auto; !* 15% from the top and centered *!*/
+/*  padding: 20px;*/
+/*  border: 1px solid #888;*/
+/*  width: 80%; !* Could be more or less, depending on screen size *!*/
+/*}*/
+
+/*!* The Close Button *!*/
+/*.close {*/
+/*  color: #aaa;*/
+/*  float: right;*/
+/*  font-size: 28px;*/
+/*  font-weight: bold;*/
+/*}*/
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
