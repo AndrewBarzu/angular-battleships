@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="table">
+    <p>
+      Your board
+    </p>
+    <table>
+      <tr *ngFor="let row of gameService.boards[0].displayForSelf() let i = index"
+          class="tr">
+        <td *ngFor="let col of row; let j = index"
+            (click)="gameService.phase === 'place' ? gameService.place(i, j, gameService.ships[0].toString(), gameService.orientations[0]): null">
+          <a class="{{col.status}}">
+            <!--        [style.background-color] = "Table[row][col] === ' ' ? '' : 'transparent'"-->
+            <!--        [class.win] = "col.status == 'win'" [class.fail] = "col.status !== 'win'"-->
+            <!--        class="battleship-tile" id="t{{i}}{{j}}">-->
+            {{ col.text }}
+          </a>
+        </td>
+      </tr>
+    </table>
+    <button mat-raised-button
+            (click)="gameService.orientations[0] = (gameService.orientations[0] === 'H') ? 'V' : 'H'"
+            class="rippleButton">
+      Rotate</button>
+    <p>
+      {{gameService.error}}
+    </p>
+  </div>
+  <div class="table">
+    <p>
+      Enemy board
+    </p>
+    <table>
+      <tr *ngFor="let row of gameService.boards[1].displayForEnemy() let i = index"
+          class="tr">
+        <td *ngFor="let col of row; let j = index"
+            (click)="gameService.phase === 'game' ? hit(i, j): null">
+          <a class="{{col.status}}">
+            <!--        [style.background-color] = "Table[row][col] === ' ' ? '' : 'transparent'"-->
+            <!--        [class.win] = "col.status == 'win'" [class.fail] = "col.status !== 'win'"-->
+            <!--        class="battleship-tile" id="t{{i}}{{j}}">-->
+            {{ col.text }}
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

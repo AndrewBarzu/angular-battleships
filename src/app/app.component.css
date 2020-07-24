@@ -1,0 +1,19 @@
+.title_text{
+  color: blue;
+  font-size: 50px;
+  font-family: '04b_03', sans-serif;
+  text-align: center;
+}
+
+.onGoing{
+
+}
+
+.win{
+  content: 'You win!';
+  background: lightblue;
+}
+.lose{
+  content: 'You lose :(';
+  background: lightcoral;
+}

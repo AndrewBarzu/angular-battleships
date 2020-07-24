@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  background-color: white;
+}
+
+mat-dialog-container#modal-component {
+  border: 3px solid #262626;
+  border-radius: 11px;
+  background-color: #1a1a1a;
+}
+
+@font-face {
+  font-family: '04b_03';
+  src: url('assets/myFont/04b_03.ttf.woff') format('woff'),
+  url('assets/myFont/04b_03.ttf.svg#04b_03') format('svg'),
+  url('assets/myFont/04b_03.ttf.eot'),
+  url('assets/myFont/04b_03.ttf.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
