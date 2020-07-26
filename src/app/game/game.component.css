@@ -14,6 +14,11 @@ th, td {
   position: relative;
 }
 
+@keyframes hover{
+  from {background-color: blue;}
+  to {background-color: red;}
+}
+
 td a, td span {
   position: absolute;
   top: 0;
@@ -23,14 +28,9 @@ td a, td span {
   text-decoration: none;
 }
 
-td a:hover {
+td a:not(:focus):hover {
   background: lightgray;
-}
-
-td a:active {
-  background-color: #6eb9f7;
-  background-size: 100%;
-  transition: background 0s;
+  animation: hover 1s alternate infinite;
 }
 
 .none{
@@ -75,3 +75,10 @@ td a:active {
   transition: background 0s;
 }
 
+mat-button-toggle {
+  background-color: cyan;
+}
+
+.mat-button-toggle-checked {
+  background-color: white;
+}

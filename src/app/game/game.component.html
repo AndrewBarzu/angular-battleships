@@ -8,7 +8,7 @@
           class="tr">
         <td *ngFor="let col of row; let j = index"
             (click)="gameService.phase === 'place' ? gameService.place(i, j, gameService.ships[0].toString(), gameService.orientations[0]): null">
-          <a class="{{col.status}}">
+          <a [@cellState]="col.status">
             <!--        [style.background-color] = "Table[row][col] === ' ' ? '' : 'transparent'"-->
             <!--        [class.win] = "col.status == 'win'" [class.fail] = "col.status !== 'win'"-->
             <!--        class="battleship-tile" id="t{{i}}{{j}}">-->
@@ -34,7 +34,7 @@
           class="tr">
         <td *ngFor="let col of row; let j = index"
             (click)="gameService.phase === 'game' ? hit(i, j): null">
-          <a class="{{col.status}}">
+          <a [@cellState]="col.status">
             <!--        [style.background-color] = "Table[row][col] === ' ' ? '' : 'transparent'"-->
             <!--        [class.win] = "col.status == 'win'" [class.fail] = "col.status !== 'win'"-->
             <!--        class="battleship-tile" id="t{{i}}{{j}}">-->
@@ -43,5 +43,15 @@
         </td>
       </tr>
     </table>
+  </div>
+  <div style="align-self: center">
+    <p>
+      Game difficulty:
+    </p>
+    <mat-button-toggle-group vertical value="medium">
+      <mat-button-toggle value="easy" (click)="gameService.replay('easy')">Easy</mat-button-toggle>
+      <mat-button-toggle value="medium" (click)="gameService.replay('medium')">Medium</mat-button-toggle>
+      <mat-button-toggle value="hard" (click)="gameService.replay('hard')">Hard</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
 </div>

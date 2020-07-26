@@ -1,10 +1,35 @@
-import {Inject, Injectable} from '@angular/core';
-import {TableComponent} from './table/table.component';
+import {TableComponent} from '../table/table.component';
+import {Stack} from 'stack-typescript';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AiService {
+export abstract class AIPlayer {
+  protected probabilityMap = [];
+
+  protected constructor(protected myTable: TableComponent, protected enemyTable: TableComponent) {
+    for (let i = 0; i < 8; i++) {
+      this.probabilityMap[i] = [];
+      for (let j = 0; j < 8; j++) {
+        this.probabilityMap[i][j] = 0;
+      }
+    }
+  }
+  abstract takeShot(): void;
+  place(): void {
+    for (let ship = 1; ship <= 3; ship++) {
+      while (true) {
+        try {
+          const x = Math.floor(Math.random() * 8);
+          const y = Math.floor(Math.random() * 8);
+          const orientation = Math.floor(Math.random() * 2) === 1 ? 'H' : 'V';
+          this.myTable.place(x, y, ship.toString(), orientation);
+          break;
+        } catch (e) {
+        }
+      }
+    }
+  }
+}
+
+export class HardAI extends AIPlayer{
 
   probabilityMap = [];
   shipQuotas;
@@ -12,13 +37,8 @@ export class AiService {
   xquota = 5;
   morexQuota = 16;
 
-  constructor(private myTable: TableComponent, private enemyTable: TableComponent) {
-    for (let i = 0; i < 8; i++) {
-      this.probabilityMap[i] = [];
-      for (let j = 0; j < 8; j++) {
-        this.probabilityMap[i][j] = 0;
-      }
-    }
+  constructor(myTable: TableComponent, enemyTable: TableComponent) {
+    super(myTable, enemyTable);
     this.shipQuotas = {2: 4, 3: 2, 4: 9};
   }
   /// Checks if an index is valid
@@ -130,20 +150,84 @@ export class AiService {
     }
     this.enemyTable.hit(mostProbablePosition[0], mostProbablePosition[1]);
   }
+}
 
-  place(): void {
-    for (let ship = 1; ship <= 3; ship++) {
-      while (true) {
-        try {
-          const x = Math.floor(Math.random() * 8);
-          const y = Math.floor(Math.random() * 8);
-          const orientation = Math.floor(Math.random() * 2) === 1 ? 'H' : 'V';
-          this.myTable.place(x, y, ship.toString(), orientation);
-          break;
-        } catch (e) {
-        }
+export class EasyAI extends AIPlayer{
+  constructor(myTable: TableComponent, enemyTable: TableComponent) {
+    super(myTable, enemyTable);
+  }
+  takeShot(): void {
+    while (true){
+      const x = Math.floor(Math.random() * 8);
+      const y = Math.floor(Math.random() * 8);
+      if (this.enemyTable.displayForEnemy()[x][y].status === 'none'){
+        this.enemyTable.hit(x, y);
+        break;
       }
     }
   }
 }
 
+export class MediumAI extends AIPlayer{
+  private readonly seekIndices: Array<{x: number, y: number}>;
+  private nearStack: Stack<{x: number, y: number}>;
+  constructor(myTable: TableComponent, enemyTable: TableComponent) {
+    super(myTable, enemyTable);
+    this.seekIndices = new Array<{x: number, y: number}>();
+    for (let i = 0; i < 8; i++){
+      for (let j = 0; j < 8; j++){
+        if (i % 2 !== j % 2) {
+          this.seekIndices.push({x: i, y: j});
+        }
+      }
+    }
+    this.nearStack = new Stack<{x: number, y: number}>();
+  }
+  takeShot(): void {
+    if (this.nearStack.length === 0){
+      this.seek();
+    }
+    else {
+      this.destroy();
+    }
+  }
+  seek(): void{
+    while (true){
+      const indices = this.seekIndices[Math.floor(Math.random() * this.seekIndices.length)];
+      if (this.enemyTable.displayForEnemy()[indices.x][indices.y].status === 'none'){
+        this.shoot(indices.x, indices.y);
+        break;
+      }
+    }
+  }
+  shoot(x: number, y: number): void{
+    const hit = this.enemyTable.hit(x, y);
+    if (hit){
+      if (x + 1 < 8){
+        const aux = x + 1;
+        this.nearStack.push({x: aux, y});
+      }
+      if (x - 1 >= 0) {
+        const aux = x - 1;
+        this.nearStack.push({x: aux, y});
+      }
+      if (y + 1 < 8) {
+        const aux = y + 1;
+        this.nearStack.push({x, y: aux});
+      }
+      if (y - 1 >= 0) {
+        const aux = y - 1;
+        this.nearStack.push({x, y: aux});
+      }
+    }
+  }
+  destroy(): void{
+    while (this.nearStack.length > 0){
+      const nextTarget = this.nearStack.pop();
+      if (this.enemyTable.displayForEnemy()[nextTarget.x][nextTarget.y].status === 'none'){
+        this.shoot(nextTarget.x, nextTarget.y);
+        break;
+      }
+    }
+  }
+}

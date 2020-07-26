@@ -2,11 +2,41 @@ import { Component, OnInit } from '@angular/core';
 import {GameService} from '../game.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatButtonToggle} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.css'],
+  animations: [
+    trigger('cellState', [
+      state('none', style({
+          backgroundColor: 'blue',
+      })),
+      state('miss', style({
+        backgroundColor: 'white',
+      })),
+      state('hit', style({
+        backgroundColor: 'red',
+      })),
+      state('ship', style({
+        backgroundColor: 'blue',
+      })),
+      transition('none => miss', [
+        animate('1s', style({
+          backgroundColor: 'white',
+        }))]),
+      transition('none => hit', [
+        animate('1s', style({
+          backgroundColor: 'red',
+        }))]),
+      transition('ship => hit', [
+        animate('1s', style({
+          backgroundColor: 'red',
+        }))]),
+    ])
+  ]
 })
 export class GameComponent implements OnInit {
   win: string;
