@@ -1,27 +1,21 @@
-# AngularBattleships
+# Battleships
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.3.
+Welcome to my battleships game implementation, now ported to a web framework!
 
-## Development server
+## Difficulty levels
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Supported difficulty levels: 
 
-## Code scaffolding
+**Easy (Randomly chosen attacks)**: This is the naive approach of playing the game - attacking randomly and hoping you win
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**Medium (Seek and destroy algorithm)**: This is a more refined algorithm, that uses the strategy of attacking randomly until a ship is hit, and then attacking everywhere around that point
 
-## Build
+**Hard (Probability map algorithm)**: This algorithm may not be perfect, in any way, shape or form, because i didn't tweak that much the chosen weights for the ai. I may do more work on it when i figure a way to properly "train" it and make it use better weights for it's probabilities.
+The algorithm itself works by looking at the state of the map and trying to fit ships everywhere on it. Places where it can fit ships in more ways, get a higher probability of having a ship inside, and vice versa.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+*Let's say at one point the computer is in this scenario:*
+![Map Image](https://github.com/AndrewBarzu/angular-battleships/blob/master/docs/assets/myFont/images/TestImage.png)
 
-## Running unit tests
+where white means the computer took a shot and missed, and blue means that there was no shot taken. Then, the computer will try to fit a ship of length 2 on the first line, between the 2 white squares. That will work, so the probability increases. Then, a ship of length 3 isn't possible, neither one of length 4. But it can fit ships vertically, so the probability increases for both squares again, as there could be a ship of length 2, 3 or 4 in those squares.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+I tried to fiddle quite some time with the values, but i couldn't get the AI to win in less than 30 moves on average. Hopefully ML and Deep Learning especially can help me in the future with this.
