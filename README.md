@@ -1,6 +1,6 @@
 # Battleships
 
-Welcome to my battleships game implementation, now ported to a web framework!
+Welcome to my battleships game implementation, now ported to a web framework! Game is up and running at https://andrewbarzu.github.io/angular-battleships/
 
 ## Difficulty levels
 
